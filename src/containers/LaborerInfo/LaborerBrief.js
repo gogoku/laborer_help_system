@@ -75,10 +75,13 @@ export default function LaborerBrief({ laborer }) {
     }
   };
 
-  useEffect(() => {
+  useEffect(
+    () => {
+      fetchUserStats();
+    },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    fetchUserStats();
-  }, [laborer]);
+    [laborer]
+  );
 
   const navigateToDetails = () => {
     history.push("/detail_view", { laborer });
