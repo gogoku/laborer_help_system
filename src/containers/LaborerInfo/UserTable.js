@@ -58,3 +58,7 @@ export default function UserTable({ selectLaborer }) {
 UserTable.propTypes = {
   selectLaborer: PropTypes.func,
 };
+
+UserTable.defaultProps = {
+  selectLaborer: () => {},
+};

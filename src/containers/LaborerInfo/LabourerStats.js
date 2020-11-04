@@ -6,6 +6,8 @@ import WhatshotTwoToneIcon from "@material-ui/icons/WhatshotTwoTone";
 import LocationOnRoundedIcon from "@material-ui/icons/LocationOnRounded";
 import DirectionsRunRoundedIcon from "@material-ui/icons/DirectionsRunRounded";
 import AirlineSeatReclineNormalRoundedIcon from "@material-ui/icons/AirlineSeatReclineNormalRounded";
+import PropTypes from "prop-types";
+
 const useStyles = makeStyles({
   statRow: {
     display: "flex",
@@ -93,3 +95,11 @@ export default function LaborerStats({ summary }) {
     </div>
   );
 }
+
+LaborerStats.propTypes = {
+  summary: PropTypes.object,
+};
+
+LaborerStats.defaultProps = {
+  summary: {},
+};

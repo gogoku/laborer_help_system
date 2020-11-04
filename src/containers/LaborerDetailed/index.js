@@ -62,7 +62,6 @@ export default function LaborerDetailed() {
   const laborer = { ...history.location.state.laborer };
 
   const handleStartDateChange = (date) => {
-    debugger;
     setStartDate(date);
   };
 
@@ -72,26 +71,28 @@ export default function LaborerDetailed() {
 
   const fetchUserStats = async () => {
     if (laborer.id) {
-      const res = await fetchLaborerStats(
-        laborer.id,
-        format(startDate, "yyyy-MM-dd")
-        // format(endDate, "yyyy-MM-dd")
-      );
-      const data = res.data.data;
-      setstats({
-        heartRateData: data.heart_rate["activities-heart-intraday"].dataset.map(
-          ({ time, value }) => ({
+      try {
+        const res = await fetchLaborerStats(
+          laborer.id,
+          format(startDate, "yyyy-MM-dd")
+          // format(endDate, "yyyy-MM-dd")
+        );
+        const data = res.data.data;
+        setstats({
+          heartRateData: data.heart_rate[
+            "activities-heart-intraday"
+          ].dataset.map(({ time, value }) => ({
             time: getTimeStamp(time),
             value,
-          })
-        ),
-        summary: {
-          steps: data.activity.summary.steps,
-          idleTime: data.activity.summary.sedentaryMinutes,
-          calories: data.activity.summary.caloriesOut,
-          distance: data.activity.summary.distances[0].distance,
-        },
-      });
+          })),
+          summary: {
+            steps: data.activity.summary.steps,
+            idleTime: data.activity.summary.sedentaryMinutes,
+            calories: data.activity.summary.caloriesOut,
+            distance: data.activity.summary.distances[0].distance,
+          },
+        });
+      } catch (err) {}
     }
   };
 
@@ -195,4 +196,8 @@ export default function LaborerDetailed() {
 
 LaborerDetailed.propTypes = {
   laborer: PropTypes.object,
+};
+
+LaborerDetailed.defaultProps = {
+  laborer: {},
 };

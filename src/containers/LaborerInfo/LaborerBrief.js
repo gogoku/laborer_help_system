@@ -54,22 +54,24 @@ export default function LaborerBrief({ laborer }) {
 
   const fetchUserStats = async () => {
     if (laborer.id) {
-      const res = await fetchIntraDayStats(laborer.id);
-      const data = res.data.data;
-      setstats({
-        heartRateData: data.heart_rate["activities-heart-intraday"].dataset.map(
-          ({ time, value }) => ({
+      try {
+        const res = await fetchIntraDayStats(laborer.id);
+        const data = res.data.data;
+        setstats({
+          heartRateData: data.heart_rate[
+            "activities-heart-intraday"
+          ].dataset.map(({ time, value }) => ({
             time: getTimeStamp(time),
             value,
-          })
-        ),
-        summary: {
-          steps: data.activity.summary.steps,
-          idleTime: data.activity.summary.sedentaryMinutes,
-          calories: data.activity.summary.caloriesOut,
-          distance: data.activity.summary.distances[0].distance,
-        },
-      });
+          })),
+          summary: {
+            steps: data.activity.summary.steps,
+            idleTime: data.activity.summary.sedentaryMinutes,
+            calories: data.activity.summary.caloriesOut,
+            distance: data.activity.summary.distances[0].distance,
+          },
+        });
+      } catch (err) {}
     }
   };
 
@@ -156,4 +158,8 @@ export default function LaborerBrief({ laborer }) {
 
 LaborerBrief.propTypes = {
   laborer: PropTypes.object,
+};
+
+LaborerBrief.defaultProps = {
+  laborer: {},
 };
