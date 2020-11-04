@@ -25,7 +25,7 @@ export default function UserTable({ selectLaborer }) {
   const fetchLaborers = async () => {
     const res = await getLaborers();
     if (res && res.data) {
-      selectLaborer(res.data.data[1]);
+      selectLaborer(res.data.data[0]);
       setLaborerList(res.data.data);
     }
   };
