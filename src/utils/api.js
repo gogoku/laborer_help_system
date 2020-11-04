@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const endpoint = "http://54.157.153.53/api/v1";
+const endpoint = "https://54.157.153.53/api/v1";
 
 // const endpoint = "https://a5f9d129874c.ngrok.io/api/v1";
 
