@@ -76,6 +76,7 @@ export default function LaborerBrief({ laborer }) {
   };
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     fetchUserStats();
   }, [laborer]);
 
