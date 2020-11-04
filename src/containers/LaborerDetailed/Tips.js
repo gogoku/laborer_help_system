@@ -8,6 +8,7 @@ import Typography from "@material-ui/core/Typography";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import { makeStyles } from "@material-ui/core/styles";
+import Payments from "../Payments";
 
 const useStyles = makeStyles({
   tipRow: {
@@ -58,19 +59,9 @@ export default function Tips() {
           <TipHistory key={tip.date} tip={tip} />
         ))}
       </div>
-      <form className={classes.root} noValidate autoComplete="off">
-        <div className={classes.tipAddRow}>
-          <TextField id="tip-amount" label="Amount" required type="number" />
-          <Button
-            size="medium"
-            color="primary"
-            type="submit"
-            variant="contained"
-          >
-            Pay
-          </Button>
-        </div>
-      </form>
+      <div className={classes.tipAddRow}>
+        <Payments />
+      </div>
     </div>
   );
 }

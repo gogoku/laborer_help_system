@@ -30,11 +30,11 @@ export default function HeartRateChart({ heartRateData }) {
             scale="time"
             type="number"
             domain={["auto", "auto"]}
-            tickFormatter={(tickItem) => format(tickItem, "hh aaaa")}
+            tickFormatter={(tickItem) => format(tickItem, "hh:mm aaaa")}
           />
           <Tooltip
             labelFormatter={(value, name, props) =>
-              `Time : ${format(value, "hh aaaa")}`
+              `Time : ${format(value, "hh:mm aaaa")}`
             }
           />
           <Legend />

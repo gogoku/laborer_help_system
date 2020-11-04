@@ -6,6 +6,8 @@ import CardContent from "@material-ui/core/CardContent";
 import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
 import ArrowForwardRoundedIcon from "@material-ui/icons/ArrowForwardRounded";
+import DateRangeTwoToneIcon from "@material-ui/icons/DateRangeTwoTone";
+import Grid from "@material-ui/core/Grid";
 import PropTypes from "prop-types";
 import format from "date-fns/format";
 import HeartRateChart from "./HeartRateChart";
@@ -13,6 +15,7 @@ import LaborerStats from "./LabourerStats";
 import { useHistory } from "react-router-dom";
 import { fetchIntraDayStats } from "../../utils/api";
 import { getTimeStamp } from "../../utils/helpers";
+import { capitalize } from "@material-ui/core";
 
 const useStyles = makeStyles({
   root: {
@@ -28,10 +31,14 @@ const useStyles = makeStyles({
     transform: "scale(0.8)",
   },
   title: {
-    fontSize: 16,
+    // fontSize: 16,
   },
   pos: {
     marginBottom: 12,
+  },
+  dateString: {
+    display: "flex",
+    alignItems: "center",
   },
 });
 
@@ -77,21 +84,56 @@ export default function LaborerBrief({ laborer }) {
   return (
     <Card className={`${classes.root} MuiPaper-elevation2`}>
       <CardContent>
-        <Typography variant="caption" color="textSecondary" gutterBottom>
-          {format(new Date(), "dd-MMM-yyyy")}
-        </Typography>
-        <Typography className={classes.title} color="textPrimary" gutterBottom>
-          Name: {laborer.name}
-        </Typography>
-        <Typography color="textSecondary" gutterBottom>
-          Designation: {laborer.designation}
-        </Typography>
-        <Typography color="textSecondary" gutterBottom>
-          Contact: {`${laborer.country_code} ${laborer.phone}`}
-        </Typography>
-        <Typography color="textSecondary" gutterBottom>
-          Email: {laborer.email}
-        </Typography>
+        <Grid container>
+          <Grid item xs={10}>
+            <Typography
+              className={classes.title}
+              color="textPrimary"
+              gutterBottom
+              variant="h5"
+            >
+              {capitalize(laborer.name || "")}
+            </Typography>
+            <Typography color="textSecondary" variant="caption">
+              Designation
+            </Typography>
+            <Typography gutterBottom>
+              {capitalize(laborer.designation || "")}
+            </Typography>
+            <Grid container>
+              <Grid item xs={6}>
+                <Typography color="textSecondary" variant="caption">
+                  Contact
+                </Typography>
+              </Grid>
+              <Grid item xs={6}>
+                <Typography color="textSecondary" variant="caption">
+                  Email
+                </Typography>
+              </Grid>
+            </Grid>
+            <Grid container>
+              <Grid item xs={6}>
+                <Typography color="textSecondary" gutterBottom>
+                  {`${laborer.country_code} ${laborer.phone}`}
+                </Typography>
+              </Grid>
+              <Grid item xs={6}>
+                <Typography gutterBottom>{laborer.email}</Typography>
+              </Grid>
+            </Grid>
+          </Grid>
+          <Grid item xs={2}>
+            <Typography
+              variant="body2"
+              className={classes.dateString}
+              gutterBottom
+            >
+              <DateRangeTwoToneIcon fontSize="small" />
+              {format(new Date(), " do MMM")}
+            </Typography>
+          </Grid>
+        </Grid>
         <Typography color="textSecondary">Heart Rate</Typography>
         <HeartRateChart laborer={laborer} heartRateData={stats.heartRateData} />
         <Typography color="textSecondary" gutterBottom>

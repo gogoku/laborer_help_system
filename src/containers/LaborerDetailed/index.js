@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Card from "@material-ui/core/Card";
 import CardActions from "@material-ui/core/CardActions";
@@ -21,6 +21,7 @@ import LaborerStats from "./LabourerStats";
 import Tips from "./Tips";
 import { fetchLaborerStats } from "../../utils/api";
 import { format } from "date-fns";
+import { getTimeStamp } from "../../utils/helpers";
 
 const useStyles = makeStyles({
   cardRoot: {
@@ -56,50 +57,47 @@ export default function LaborerDetailed() {
   const history = useHistory();
   const classes = useStyles();
   const [startDate, setStartDate] = React.useState(new Date());
-  const [endDate, setEndDate] = React.useState(new Date());
+  // const [endDate, setEndDate] = React.useState(new Date());
   const [stats, setstats] = useState(statsInitial);
   const laborer = { ...history.location.state.laborer };
 
   const handleStartDateChange = (date) => {
+    debugger;
     setStartDate(date);
   };
 
-  const handleEndDateChange = (date) => {
-    setEndDate(date);
-  };
+  // const handleEndDateChange = (date) => {
+  //   setEndDate(date);
+  // };
 
   const fetchUserStats = async () => {
     if (laborer.id) {
       const res = await fetchLaborerStats(
         laborer.id,
-        format(startDate, "yyyy-MM-dd"),
-        format(endDate, "yyyy-MM-dd")
+        format(startDate, "yyyy-MM-dd")
+        // format(endDate, "yyyy-MM-dd")
       );
       const data = res.data.data;
-      // setstats({
-      // heartRateData: data.heart_rate["activities-heart-intraday"].dataset.map(
-      //   ({ time, value }) => ({
-      //     time: getTimeStamp(time),
-      //     value,
-      //   })
-      // ),
-      // summary: {
-      //   steps: data.activity.summary.steps,
-      //   idleTime: data.activity.summary.sedentaryMinutes,
-      //   calories: data.activity.summary.caloriesOut,
-      //   distance: data.activity.summary.distances[0].distance,
-      // },
-      // });
+      setstats({
+        heartRateData: data.heart_rate["activities-heart-intraday"].dataset.map(
+          ({ time, value }) => ({
+            time: getTimeStamp(time),
+            value,
+          })
+        ),
+        summary: {
+          steps: data.activity.summary.steps,
+          idleTime: data.activity.summary.sedentaryMinutes,
+          calories: data.activity.summary.caloriesOut,
+          distance: data.activity.summary.distances[0].distance,
+        },
+      });
     }
   };
 
   useEffect(() => {
     fetchUserStats();
-  }, []);
-
-  useEffect(() => {
-    fetchUserStats();
-  }, [startDate, endDate]);
+  }, [startDate]);
 
   return (
     <div>
@@ -144,13 +142,13 @@ export default function LaborerDetailed() {
                   id="start-date"
                   label="Start Date"
                   value={startDate}
-                  maxDate={endDate}
+                  maxDate={new Date()}
                   onChange={handleStartDateChange}
                   KeyboardButtonProps={{
                     "aria-label": "change date",
                   }}
                 />
-                <KeyboardDatePicker
+                {/* <KeyboardDatePicker
                   disableToolbar
                   margin="normal"
                   variant="inline"
@@ -164,7 +162,7 @@ export default function LaborerDetailed() {
                   KeyboardButtonProps={{
                     "aria-label": "change date",
                   }}
-                />
+                /> */}
               </Grid>
             </MuiPickersUtilsProvider>
           </div>
@@ -173,7 +171,7 @@ export default function LaborerDetailed() {
               <Typography color="textSecondary">
                 Heart Rate <Typography variant="caption">(Bpm)</Typography>
               </Typography>
-              <HeartRateChart />
+              <HeartRateChart heartRateData={stats.heartRateData} />
             </CardContent>
           </Card>
           <Card className={`${classes.cardRoot}`}>

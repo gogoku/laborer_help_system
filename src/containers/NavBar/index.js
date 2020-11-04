@@ -62,6 +62,10 @@ const useStyles = makeStyles((theme) => ({
   marginLeft8: {
     marginLeft: "3em",
   },
+  iconLink: {
+    display: "flex",
+    alignItems: "center",
+  },
 }));
 
 function NavBar() {
@@ -78,7 +82,7 @@ function NavBar() {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
   const history = useHistory();
-  const [cookies, setCookie, removeCookie] = useCookies(["cookie-name"]);
+  const [userCookies, setCookie, removeCookie] = useCookies(["user"]);
 
   function handleDrawerToggle() {
     setMobileOpen(!mobileOpen);
@@ -112,6 +116,13 @@ function NavBar() {
     history.push("/manage_laborers");
   };
 
+  const navigateHome = (ev) => {
+    ev.preventDefault();
+    history.push("/");
+  };
+
+  console.log(userCookies?.user);
+
   return (
     <div className={classes.root}>
       <CssBaseline />
@@ -127,21 +138,33 @@ function NavBar() {
             >
               <MenuIcon />
             </IconButton>
-            <FaHandshake size="2em" />
-            <Typography variant="h6" noWrap>
-              &nbsp;Laborer Help System
-            </Typography>
-            <Hidden xsDown implementation="css">
-              <Link
-                href="/manage_laborers"
-                onClick={navigatelaborer}
-                underline="none"
-                color="inherit"
-                className={classes.marginLeft8}
-              >
-                Manage Laborers
-              </Link>
-            </Hidden>
+
+            <Link
+              href="/manage_laborers"
+              onClick={navigateHome}
+              underline="none"
+              color="inherit"
+              className={classes.iconLink}
+            >
+              <FaHandshake size="2em" />
+              <Typography variant="h6" noWrap>
+                &nbsp;Laborer Help System
+              </Typography>
+            </Link>
+
+            {userCookies?.user?.permission === "MANAGER" && (
+              <Hidden xsDown implementation="css">
+                <Link
+                  href="/manage_laborers"
+                  onClick={navigatelaborer}
+                  underline="none"
+                  color="inherit"
+                  className={classes.marginLeft8}
+                >
+                  Manage Laborers
+                </Link>
+              </Hidden>
+            )}
           </div>
           <div>
             <IconButton
@@ -152,6 +175,9 @@ function NavBar() {
               color="inherit"
             >
               <AccountCircle />
+              <Typography variant="body2">
+                &nbsp;{userCookies?.user?.firstname}
+              </Typography>
             </IconButton>
             <Menu
               id="menu-appbar"

@@ -2,6 +2,8 @@ import axios from "axios";
 
 const endpoint = "http://34.202.164.1/api/v1";
 
+// const endpoint = "https://a5f9d129874c.ngrok.io/api/v1";
+
 export const setToken = (token) => {
   axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
 };
@@ -26,8 +28,10 @@ export const fetchIntraDayStats = (id) => {
   return axios.get(`${endpoint}/labourers/labour/${id}`);
 };
 
-export const fetchLaborerStats = (id, start, end) => {
-  return axios.get(
-    `${endpoint}/labourers/labour/range/${id}/fromdate/${start}/enddate/${end}`
-  );
+export const fetchLaborerStats = (id, start) => {
+  return axios.get(`${endpoint}/labourers/labour/${id}/date/${start}`);
+};
+
+export const addPaymentId = (id) => {
+  return axios.post(`${endpoint}`, { id });
 };
