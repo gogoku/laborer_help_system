@@ -69,7 +69,7 @@ const RegisterDevice = ({ onChange }) => {
   const addToken = () => {
     window.addEventListener("storage", onStorageUpdated);
     window.open(
-      "https://www.fitbit.com/oauth2/authorize?response_type=code&client_id=22BT9C&redirect_uri=https://pedantic-benz-6c1cf4.netlify.app/authenticate_device&scope=activity%20nutrition%20heartrate%20location%20nutrition%20profile%20settings%20sleep%20social%20weight",
+      "https://www.fitbit.com/oauth2/authorize?response_type=code&client_id=22BT9C&redirect_uri=http://localhost:3000/authenticate_device&scope=activity%20nutrition%20heartrate%20location%20nutrition%20profile%20settings%20sleep%20social%20weight",
       "_blank"
     );
   };
