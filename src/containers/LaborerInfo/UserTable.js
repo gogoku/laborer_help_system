@@ -30,9 +30,13 @@ export default function UserTable({ selectLaborer }) {
     }
   };
 
-  useEffect(() => {
-    fetchLaborers();
-  }, []);
+  useEffect(
+    () => {
+      fetchLaborers();
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    []
+  );
 
   return (
     <Table

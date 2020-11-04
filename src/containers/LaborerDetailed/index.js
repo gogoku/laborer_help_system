@@ -96,9 +96,13 @@ export default function LaborerDetailed() {
     }
   };
 
-  useEffect(() => {
-    fetchUserStats();
-  }, [startDate]);
+  useEffect(
+    () => {
+      fetchUserStats();
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [startDate]
+  );
 
   return (
     <div>

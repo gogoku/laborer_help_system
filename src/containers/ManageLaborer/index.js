@@ -92,9 +92,13 @@ export default function ManageLabourer() {
     }
   };
 
-  useEffect(() => {
-    fetchLaborers();
-  }, []);
+  useEffect(
+    () => {
+      fetchLaborers();
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    []
+  );
 
   const handleCloseAlert = () => {
     additionErrorMessage = "";
