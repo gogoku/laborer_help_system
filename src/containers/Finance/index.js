@@ -12,15 +12,15 @@ import { getFinanceReport } from "../../utils/api";
 import { format } from "date-fns";
 
 const columns = [
-  { title: "Transaction Id", field: "id" },
+  { title: "Transaction Id", field: "id", grouping: false },
   { title: "Sender Name", field: "sender_name" },
   { title: "Reciever Name", field: "receiver_name" },
-  { title: "Amount", field: "amount" },
+  { title: "Amount", field: "amount", grouping: false },
   {
     title: "Date",
     field: "timestamp",
-    type: "date",
-    // render: (rowData) => format(new Date(rowData.timestamp), "dd MMM yyyy"),
+    // type: "date",
+    render: (rowData) => format(new Date(rowData.timestamp), "dd MMM yyyy"),
   },
   { title: "Payment Status", field: "payment_status", defaultGroupOrder: 0 },
 ];
@@ -97,7 +97,8 @@ export default function Finance() {
         columns={columns}
         data={financeList}
         options={{
-          exportButton: true,
+          grouping: true,
+          // exportButton: true,
         }}
       />
     </div>
