@@ -107,25 +107,33 @@ export default function LaborerBrief({ laborer }) {
               {capitalize(laborer.designation || "")}
             </Typography>
             <Grid container>
-              <Grid item xs={6}>
+              <Grid item xs={4}>
                 <Typography color="textSecondary" variant="caption">
                   Contact
                 </Typography>
               </Grid>
-              <Grid item xs={6}>
+              <Grid item xs={4}>
                 <Typography color="textSecondary" variant="caption">
                   Email
                 </Typography>
               </Grid>
-            </Grid>
-            <Grid container>
-              <Grid item xs={6}>
-                <Typography color="textSecondary" gutterBottom>
-                  {`${laborer.country_code} ${laborer.phone}`}
+              <Grid item xs={4}>
+                <Typography color="textSecondary" variant="caption">
+                  Tip Received
                 </Typography>
               </Grid>
-              <Grid item xs={6}>
+            </Grid>
+            <Grid container>
+              <Grid item xs={4}>
+                <Typography color="textSecondary" gutterBottom>
+                  {`${laborer.country_code || ""} ${laborer.phone || ""}`}
+                </Typography>
+              </Grid>
+              <Grid item xs={4}>
                 <Typography gutterBottom>{laborer.email}</Typography>
+              </Grid>
+              <Grid item xs={4}>
+                <Typography gutterBottom>{laborer.amount} AED</Typography>
               </Grid>
             </Grid>
           </Grid>
@@ -165,5 +173,11 @@ LaborerBrief.propTypes = {
 };
 
 LaborerBrief.defaultProps = {
-  laborer: {},
+  laborer: {
+    name: "",
+    designation: "",
+    phone: "",
+    email: "",
+    country_code: "",
+  },
 };

@@ -121,8 +121,6 @@ function NavBar() {
     history.push("/");
   };
 
-  console.log(userCookies?.user);
-
   return (
     <div className={classes.root}>
       <CssBaseline />
@@ -196,6 +194,9 @@ function NavBar() {
             >
               {/* <MenuItem onClick={handleClose}>Profile</MenuItem> */}
               <MenuItem onClick={logout}>Logout</MenuItem>
+              {/* {userCookies?.user?.permission === "MANAGER" && (
+                <MenuItem>Balance: 5200 AED</MenuItem>
+              )} */}
             </Menu>
           </div>
         </Toolbar>

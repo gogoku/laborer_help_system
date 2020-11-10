@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Input from "@material-ui/core/Input";
 import InputLabel from "@material-ui/core/InputLabel";
 import InputAdornment from "@material-ui/core/InputAdornment";
@@ -9,6 +9,9 @@ import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import { makeStyles } from "@material-ui/core/styles";
 import Payments from "../Payments";
+import { useHistory } from "react-router-dom";
+import { getTipHistory } from "../../utils/api";
+import { format } from "date-fns";
 
 const useStyles = makeStyles({
   tipRow: {
@@ -28,27 +31,41 @@ const useStyles = makeStyles({
   },
 });
 
-const tipList = [
-  { date: "22nd May", amount: "20" },
-  { date: "22nd Jun", amount: "15" },
-  { date: "22nd Jul", amount: "10" },
-  { date: "22nd Aug", amount: "5" },
-  { date: "22nd Sept", amount: "30" },
-  { date: "22nd Oct", amount: "10" },
-];
+const initialTipList = [];
 
 const TipHistory = ({ tip }) => {
   const classes = useStyles();
   return (
     <div className={classes.tipRow}>
-      <div>{tip.date}</div>
-      <div>{tip.amount} $</div>
+      <div>{format(new Date(tip.timestamp), "dd MMM yy")}</div>
+      <div>{tip.amount} AED</div>
     </div>
   );
 };
 
-export default function Tips() {
+export default function Tips({ laborer }) {
+  const [tipList, setTipList] = useState(initialTipList);
   const classes = useStyles();
+  const history = useHistory();
+
+  const navigateToPayments = () => {
+    debugger;
+    history.push("/payment", { laborer });
+  };
+
+  const fetchTipList = async () => {
+    console.log(laborer, "i am called");
+    const res = await getTipHistory(laborer.id);
+    if (res && res.data.statusCode === 200) {
+      setTipList(res.data.data);
+    }
+  };
+
+  useEffect(() => {
+    fetchTipList();
+    return undefined;
+  }, []);
+
   return (
     <div>
       <Typography color="textSecondary" className={classes.tipTitle}>
@@ -60,7 +77,14 @@ export default function Tips() {
         ))}
       </div>
       <div className={classes.tipAddRow}>
-        <Payments />
+        <Button
+          fullWidth
+          variant="contained"
+          color="primary"
+          onClick={navigateToPayments}
+        >
+          Add Tip
+        </Button>
       </div>
     </div>
   );

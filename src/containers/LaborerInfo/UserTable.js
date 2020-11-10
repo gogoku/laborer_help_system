@@ -19,25 +19,7 @@ const columns = [
 
 const data = [{ name: "Mehmet", project: "12345", fit: "Yes" }];
 
-export default function UserTable({ selectLaborer }) {
-  const [laborerList, setLaborerList] = useState([]);
-
-  const fetchLaborers = async () => {
-    const res = await getLaborers();
-    if (res && res.data) {
-      selectLaborer(res.data.data[0]);
-      setLaborerList(res.data.data);
-    }
-  };
-
-  useEffect(
-    () => {
-      fetchLaborers();
-    },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    []
-  );
-
+export default function UserTable({ selectLaborer, laborerList }) {
   return (
     <Table
       columns={columns}

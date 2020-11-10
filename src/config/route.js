@@ -14,8 +14,11 @@ import Wrapper from "../containers/Wrapper";
 import AuthenticateHandle from "../containers/AuthenticateHandle";
 import LaborerInfo from "../containers/LaborerInfo";
 import LaborerDetailed from "../containers/LaborerDetailed";
+import Payments from "../containers/Payments";
+import Finance from "../containers/Finance";
 
 export default function AuthExample() {
+  const [userCookies, setUserCookie] = useCookies(["user"]);
   return (
     <Router>
       <Switch>
@@ -37,8 +40,15 @@ export default function AuthExample() {
         <PrivateRoute path="/manage_laborers">
           <ManageLabourer />
         </PrivateRoute>
+        <PrivateRoute path="/payment">
+          <Payments />
+        </PrivateRoute>
         <PrivateRoute path="/">
-          <LaborerInfo />
+          {userCookies?.user?.permission === "FINANCE" ? (
+            <Finance />
+          ) : (
+            <LaborerInfo />
+          )}
         </PrivateRoute>
         <PrivateRoute path="/protected">
           <ProtectedPage />

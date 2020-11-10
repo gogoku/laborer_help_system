@@ -131,6 +131,9 @@ export default function LaborerDetailed() {
             <Typography className={classes.title}>
               Email: {laborer.email}
             </Typography>
+            <Typography className={classes.title}>
+              Total Tip Received: {laborer.amount}
+            </Typography>
           </div>
         </CardContent>
       </Card>
@@ -189,7 +192,7 @@ export default function LaborerDetailed() {
         <div className={classes.tipContainer}>
           <Card className={`${classes.cardRoot}`}>
             <CardContent>
-              <Tips />
+              <Tips laborer={laborer} />
             </CardContent>
           </Card>
         </div>
